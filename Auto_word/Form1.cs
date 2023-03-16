@@ -49,8 +49,21 @@ namespace Auto_word
             foreach (var item in paths)
             {
                 var helper = new WordHelper(item);
-                //helper.Process(items);
-                helper.threadStart(items);
+                helper.Process(items);
+                //helper.threadStart(items);
+            }
+
+            string outputFileName = String.Format(@"C:\Users\Maksim\Desktop\Балванки\Тестовые\Combined.docx", Guid.NewGuid());
+            string[] names = { "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые\\0 Болванка Бюллетень-нов форма 22-02-2018.docx", 
+                "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые\\1 Болванка Бюллетень-нов форма 22-02-2018.docx",
+            "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые\\2 Болванка Бюллетень-нов форма 22-02-2018.docx",
+            "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые\\3 Болванка Бюллетень-нов форма 22-02-2018.docx"};
+
+            WordHelper.Merge(names, outputFileName, false, "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые\\template.docx");
+
+            foreach (var item in names)
+            {
+                File.Delete(item);
             }
             
         }
