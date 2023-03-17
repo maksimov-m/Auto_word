@@ -1,5 +1,6 @@
 using ExcelDataReader;
 using System.Data;
+using System.Net.Http.Headers;
 
 namespace Auto_word
 {
@@ -14,7 +15,7 @@ namespace Auto_word
             dataGridView2.Columns.Add("Должность", "Должность");
             dataGridView2.Columns.Add("Кафедра", "Кафедра");
             dataGridView2.Columns.AddRange(new DataGridViewColumn[] { new DataGridViewButtonColumn() });
-            dataGridView2[4, 0].Value = "Delete";
+            //dataGridView2[4, 0].Value = "Убрать";
 
         }
         private string filename = string.Empty;
@@ -23,11 +24,11 @@ namespace Auto_word
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string[] paths = { "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые\\Болванка Бюллетень-нов форма 22-02-2018.docx", 
+            string[] paths = { "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые\\Болванка Бюллетень-нов форма 22-02-2018.docx",
                 "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые\\болванка ПРОТОКОЛ 22-01-2018.docx",
                 "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые\\болванкаРеш Сов 14-06-2018.doc" };
 
-            
+
 
             var items = new Dictionary<string, List<string>>
             {
@@ -36,7 +37,7 @@ namespace Auto_word
                 {"<DATE>", new List<string>() },
                 {"<DEP>", new List<string>() },
 
-            }; 
+            };
 
             for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
             {
@@ -52,7 +53,7 @@ namespace Auto_word
                 //helper.Process(items);
                 helper.threadStart(items);
             }
-            
+
         }
 
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -61,7 +62,7 @@ namespace Auto_word
             {
                 DialogResult res = openFileDialog1.ShowDialog();
 
-                if(res == DialogResult.OK)
+                if (res == DialogResult.OK)
                 {
                     filename = openFileDialog1.FileName;
 
@@ -86,7 +87,7 @@ namespace Auto_word
         {
             FileStream stream = File.Open(path, FileMode.Open, FileAccess.Read);
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream);  
+            IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream);
 
             DataSet db = reader.AsDataSet(new ExcelDataSetConfiguration()
             {
@@ -94,11 +95,14 @@ namespace Auto_word
                 {
                     UseHeaderRow = true
                 }
+
             });
 
-            tableCollection = db.Tables;
 
-            toolStripComboBox1.Items.Clear();
+            reader.Close();
+
+
+            tableCollection = db.Tables;
 
             foreach (DataTable tabe in tableCollection)
             {
@@ -112,13 +116,29 @@ namespace Auto_word
         {
             DataTable table = tableCollection[Convert.ToString(toolStripComboBox1.SelectedItem)];
 
-            dataGridView1.DataSource = table;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { new DataGridViewButtonColumn() });
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            foreach (DataColumn item in table.Columns)
             {
-                dataGridView1[4, i].Value = "Add";
+                dataGridView1.Columns.Add(item.ColumnName, item.Caption);
             }
-            
+
+
+            foreach (DataRow item in table.Rows)
+            {
+                dataGridView1.Rows.Add(item.ItemArray);
+            }
+            dataGridView1.Columns.Add("Control", "");
+
+            for (int i = 0; i < dataGridView1.Columns.Count - 1; i++)
+            {
+                dataGridView1.Rows[i].Cells[dataGridView1.Rows[i].Cells.Count - 1] = new DataGridViewButtonCell() { };
+                dataGridView1.Rows[i].Cells[dataGridView1.Rows[i].Cells.Count - 1].Value = "Добавить";
+            }
+
+            //for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            //{
+            //    dataGridView1[dataGridView1.Rows.Count , i].Value = "Добавить";
+            //}
+
 
         }
 
@@ -126,31 +146,44 @@ namespace Auto_word
         {
             try
             {
-                if(e.ColumnIndex == 4)
+                if (e.ColumnIndex == 4)
                 {
-                    if (dataGridView2[0, 0].Value == "")
-                    {
-                        dataGridView2.Rows[0].Cells[0].Value = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-                        dataGridView2.Rows[0].Cells[1].Value = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-                        dataGridView2.Rows[0].Cells[2].Value = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
-                        dataGridView2.Rows[0].Cells[3].Value = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
-                        dataGridView2.Rows[0].Cells[4].Value = "Delete";
-                        //dataGridView2.Rows.Add();
-                    }
-                    else
-                    {
-                        dataGridView2.Rows.Add();
-
-                        dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[0].Value = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
-                        dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[1].Value = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-                        dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[2].Value = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
-                        dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[3].Value = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
-                        dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[4].Value = "Delete";
-
-                        
-                    }
+                    var a = dataGridView1.Rows[e.RowIndex];
+                    a.Cells[a.Cells.Count - 1].Value = "Добавить";
                     dataGridView1.Rows.RemoveAt(e.RowIndex);
+                    dataGridView2.Rows.Insert(0, a);
                     dataGridView1.Refresh();
+                    dataGridView2.Refresh();
+                    //if ((dataGridView2[0, 0].Value as string).Length == 0)
+                    //{
+                    //    //dataGridView2.Rows[0].Cells[0].Value = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    //    //dataGridView2.Rows[0].Cells[1].Value = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    //    //dataGridView2.Rows[0].Cells[2].Value = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
+                    //    //dataGridView2.Rows[0].Cells[3].Value = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
+                    //    //dataGridView2.Rows[0].Cells[4].Value = "Убрать";
+                    //    //dataGridView2.Rows.Add();
+                    //    var a = dataGridView1.Rows[e.RowIndex];
+                    //    a.Cells[a.Cells.Count - 1].Value = "Добавить";
+                    //    dataGridView1.Rows.RemoveAt(e.RowIndex);
+                    //    dataGridView2.Rows.Insert(1, a);
+                    //}
+                    //else
+                    //{
+                    //    //dataGridView2.Rows.Add();
+
+                    //    //dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[0].Value = dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    //    //dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[1].Value = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    //    //dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[2].Value = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
+                    //    //dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[3].Value = dataGridView1.Rows[e.RowIndex].Cells[3].Value.ToString();
+                    //    //dataGridView2.Rows[dataGridView2.Rows.Count - 2].Cells[4].Value = "Убрать";
+                    //    var a = dataGridView1.Rows[e.RowIndex];
+                    //    a.Cells[a.Cells.Count - 1].Value = "Добавить";
+                    //    dataGridView1.Rows.RemoveAt(e.RowIndex);
+                    //    dataGridView2.Rows.Insert(1, a);
+
+                    //}
+                    //dataGridView1.Rows.RemoveAt(e.RowIndex);
+                    //dataGridView1.Refresh();
 
                 }
             }
@@ -166,29 +199,40 @@ namespace Auto_word
             {
                 if (e.ColumnIndex == 4)
                 {
-                    if (dataGridView1[0, 0].Value == "")
-                    {
-                        dataGridView1.Rows[0].Cells[0].Value = dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString();
-                        dataGridView1.Rows[0].Cells[1].Value = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
-                        dataGridView1.Rows[0].Cells[2].Value = dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString();
-                        dataGridView1.Rows[0].Cells[3].Value = dataGridView2.Rows[e.RowIndex].Cells[3].Value.ToString();
-                        dataGridView1.Rows[0].Cells[4].Value = "Add";
-                        //dataGridView2.Rows.Add();
-                    }
-                    else
-                    {
-                        dataGridView1.Rows.Add(1);
-
-                        dataGridView1.Rows[dataGridView2.Rows.Count - 2].Cells[0].Value = dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString();
-                        dataGridView1.Rows[dataGridView2.Rows.Count - 2].Cells[1].Value = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
-                        dataGridView1.Rows[dataGridView2.Rows.Count - 2].Cells[2].Value = dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString();
-                        dataGridView1.Rows[dataGridView2.Rows.Count - 2].Cells[3].Value = dataGridView2.Rows[e.RowIndex].Cells[3].Value.ToString();
-                        dataGridView1.Rows[dataGridView2.Rows.Count - 2].Cells[4].Value = "Add";
-
-
-                    }
+                    var a = dataGridView2.Rows[e.RowIndex];
+                    a.Cells[a.Cells.Count - 1].Value = "Добавить";
                     dataGridView2.Rows.RemoveAt(e.RowIndex);
+                    dataGridView1.Rows.Insert(0, a);
+                    dataGridView1.Refresh();
                     dataGridView2.Refresh();
+
+                    //if (dataGridView1[0, 0].Value == "")
+                    //{
+                    //    //dataGridView1.Rows[0].Cells[0].Value = dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    //    //dataGridView1.Rows[0].Cells[1].Value = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    //    //dataGridView1.Rows[0].Cells[2].Value = dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString();
+                    //    //dataGridView1.Rows[0].Cells[3].Value = dataGridView2.Rows[e.RowIndex].Cells[3].Value.ToString();
+                    //    //dataGridView1.Rows[0].Cells[4].Value = "Добавить";
+                        
+                    //}
+                    //else
+                    //{
+                        
+
+
+
+                    //    //datagridview1.rows.add(1);
+
+                    //    //dataGridView1.Rows[dataGridView2.Rows.Count - 2].Cells[0].Value = dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    //    //dataGridView1.Rows[dataGridView2.Rows.Count - 2].Cells[1].Value = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    //    //dataGridView1.Rows[dataGridView2.Rows.Count - 2].Cells[2].Value = dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString();
+                    //    //dataGridView1.Rows[dataGridView2.Rows.Count - 2].Cells[3].Value = dataGridView2.Rows[e.RowIndex].Cells[3].Value.ToString();
+                    //    //dataGridView1.Rows[dataGridView2.Rows.Count - 2].Cells[4].Value = "Добавить";
+
+
+                    //}
+                    //dataGridView2.Rows.RemoveAt(e.RowIndex);
+                    //dataGridView2.Refresh();
 
                 }
             }
