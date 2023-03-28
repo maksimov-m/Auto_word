@@ -150,8 +150,8 @@ namespace Auto_word
                         Word.Find find = app.Selection.Find;
                         find.Text = item.Key;
                         find.Replacement.Text = item.Value[i];
-
-                        Object wrap = Word.WdFindWrap.wdFindContinue;
+                        
+                        var wrap = Word.WdFindWrap.wdFindContinue;
                         Object replace = Word.WdReplace.wdReplaceAll;
 
                         find.Execute(FindText: Type.Missing,
