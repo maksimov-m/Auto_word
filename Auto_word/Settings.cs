@@ -26,7 +26,7 @@ namespace Auto_word
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
             folderBrowserDialog.ShowDialog();
-            Console.WriteLine(folderBrowserDialog.SelectedPath);
+            //Console.WriteLine(folderBrowserDialog.SelectedPath);
             textBox1.Text = folderBrowserDialog.SelectedPath;
         }
 
@@ -53,7 +53,7 @@ namespace Auto_word
                 {
                     comboBox1.Items.Add(item);
 
-                    Console.WriteLine(item);
+                    //Console.WriteLine(item);
 
                 }
 

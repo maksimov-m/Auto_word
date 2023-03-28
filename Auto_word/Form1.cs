@@ -23,7 +23,7 @@ namespace Auto_word
 
             foreach (var item in _paths_bolvanki)
             {
-                paths_bolvanki.Append(item);
+                paths_bolvanki = paths_bolvanki.Append(item).ToArray();
             }
 
         }
@@ -67,8 +67,8 @@ namespace Auto_word
 
             date = $"«{date[0..2]}»  {(Month)month}  {date[6..10]}";
 
-            string[] paths = { "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\Болванка 1.docx",
-                "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\Болванка 2.docx"};
+            //string[] paths = { "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\Болванка 1.docx",
+                //"C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\Болванка 2.docx"};
 
 
 
@@ -92,23 +92,67 @@ namespace Auto_word
 
             }
 
-            foreach (var item in paths)
+            foreach (var item in paths_bolvanki)
             {
                 var helper = new WordHelper(item);
                 helper.Process(items);
                 //helper.threadStart(items);
             }
 
-            string[] outputFileNames = { String.Format(@"C:\Users\Maksim\Desktop\Балванки\Тестовые 2\Combined 1.docx", Guid.NewGuid()),
-            String.Format(@"C:\Users\Maksim\Desktop\Балванки\Тестовые 2\Combined 2.docx", Guid.NewGuid())};
-            string[] names = { "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\0 Болванка 1.docx",
-            "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\1 Болванка 1.docx"
-            };
-            string[] names2 = {"C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\0 Болванка 2.docx",
-            "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\1 Болванка 2.docx"};
+            string []names_file = new string[0];
+            
+            foreach (string item in paths_bolvanki)
+            {
+                names_file = names_file.Append(item[(item.LastIndexOf("\\") + 1)..paths_bolvanki[0].Length]).ToArray();
+            }
+            string direct = paths_bolvanki[0][0..(paths_bolvanki[0].LastIndexOf("\\") + 1)];
 
-            WordHelper.Merge(names, outputFileNames[0], false, "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\template.docx");
-            WordHelper.Merge(names2, outputFileNames[1], false, "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\template.docx");
+            string[] res_names = new string[0];
+            for (int i = 0; i < names_file.Length; i++)
+            {
+                for (int j = 0; j < dataGridView2.Rows.Count - 1; j++)
+                {
+                    res_names = res_names.Append($"{direct}{j} {names_file[i]}").ToArray();
+                }
+                WordHelper.Merge(res_names, $"{direct}Combine {i + 1}", false, $"{direct}template.docx");
+
+                foreach (var item in res_names)
+                {
+                    try
+                    {
+                        File.Delete(item);
+                    }
+                    catch (Exception)
+                    {
+
+                        
+                    }
+                    
+                    //Console.WriteLine(item);
+                }
+                res_names = new string[0];
+
+            }
+
+            
+
+            MessageBox.Show("Работа завершена!");
+            //foreach (var item in collection)
+            //{
+
+            //}
+            //int name = paths_bolvanki[0].LastIndexOf("\\");
+            //Console.WriteLine(paths_bolvanki[0][(name + 1) .. paths_bolvanki[0].Length]);
+            //string[] outputFileNames = { String.Format(@"C:\Users\Maksim\Desktop\Балванки\Тестовые 2\Combined 1.docx", Guid.NewGuid()),
+            //String.Format(@"C:\Users\Maksim\Desktop\Балванки\Тестовые 2\Combined 2.docx", Guid.NewGuid())};
+            //string[] names = { "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\0 Болванка 1.docx",
+            //"C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\1 Болванка 1.docx"
+            //};
+            //string[] names2 = {"C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\0 Болванка 2.docx",
+            //"C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\1 Болванка 2.docx"};
+
+            //WordHelper.Merge(names, outputFileNames[0], false, "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\template.docx");
+            //WordHelper.Merge(names2, outputFileNames[1], false, "C:\\Users\\Maksim\\Desktop\\Балванки\\Тестовые 2\\template.docx");
 
             //foreach (var item in outputFileNames)
             //{
@@ -116,10 +160,7 @@ namespace Auto_word
             //}
 
 
-            foreach (var item in names)
-            {
-                File.Delete(item);
-            }
+
 
         }
 
@@ -216,7 +257,7 @@ namespace Auto_word
                 if (e.ColumnIndex == 4)
                 {
                     var a = dataGridView1.Rows[e.RowIndex];
-                    a.Cells[a.Cells.Count - 1].Value = "Добавить";
+                    a.Cells[a.Cells.Count - 1].Value = "Удалить";
                     dataGridView1.Rows.RemoveAt(e.RowIndex);
                     dataGridView2.Rows.Insert(0, a);
                     dataGridView1.Refresh();
