@@ -16,6 +16,7 @@ namespace Auto_word
         Dictionary<string, List<string>> items;
         Dictionary<string, List<string>> filesToMerge;
         //List<string> filesToMerge;
+        Word.Application app = null;
 
         public WordHelper(string filename)
         {
@@ -30,7 +31,7 @@ namespace Auto_word
             {
                 throw new ArgumentException("File not found");
             }
-
+            app = new Word.Application();
         }
 
         internal void threadStart(Dictionary<string, List<string>> items)
@@ -129,7 +130,7 @@ namespace Auto_word
         {
             items = (Dictionary<string, List<string>>)obj;
 
-            Word.Application app = null; 
+            
             try
             {
 
@@ -137,7 +138,7 @@ namespace Auto_word
 
                 for (int i = 0; i < items["<POS>"].Count; i++)
                 {
-                    app = new Word.Application();
+                    
                     Object file = _fileInfo.FullName;
 
                     Object missing = Type.Missing;
@@ -149,8 +150,8 @@ namespace Auto_word
                         Word.Find find = app.Selection.Find;
                         find.Text = item.Key;
                         find.Replacement.Text = item.Value[i];
-
-                        Object wrap = Word.WdFindWrap.wdFindContinue;
+                        
+                        var wrap = Word.WdFindWrap.wdFindContinue;
                         Object replace = Word.WdReplace.wdReplaceAll;
 
                         find.Execute(FindText: Type.Missing,
