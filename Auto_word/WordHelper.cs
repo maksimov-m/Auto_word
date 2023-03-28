@@ -4,7 +4,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+using System.ComponentModel.Design;
 using Word = Microsoft.Office.Interop.Word;
+using System.Net.Mail;
+using System.ComponentModel;
 
 namespace Auto_word
 {
@@ -53,7 +57,7 @@ namespace Auto_word
 
             // Create a new Word application
             Word._Application wordApplication = new Word.Application();
-
+            
             try
             {
                 // Create a new file based on our template
@@ -120,6 +124,7 @@ namespace Auto_word
             }
             finally
             {
+                 
                 // Finally, Close our Word application
                 wordApplication.Quit(ref missing, ref missing, ref missing);
             }
