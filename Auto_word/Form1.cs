@@ -51,7 +51,7 @@ namespace Auto_word
             dataGridView2.Columns.Add("Должность", "Должность");
             dataGridView2.Columns.Add("Кафедра", "Кафедра");
             dataGridView2.Columns.AddRange(new DataGridViewColumn[] { new DataGridViewButtonColumn() });
-            dataGridView2[4, 0].Value = "Убрать";
+            dataGridView2[4, 0].Value = "Удалить";
 
 
         }
