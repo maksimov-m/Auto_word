@@ -189,22 +189,6 @@
             this.label2.TabIndex = 9;
             this.label2.Text = "Протокол";
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(989, 548);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(125, 27);
-            this.textBox1.TabIndex = 8;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(885, 551);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(98, 20);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Протокол №";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
