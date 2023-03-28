@@ -203,5 +203,7 @@
         private OpenFileDialog openFileDialog1;
         private Panel panel2;
         private DataGridView dataGridView2;
+        private TextBox textBox1;
+        private Label label1;
     }
 }
