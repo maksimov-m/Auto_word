@@ -88,7 +88,7 @@ namespace Auto_word
                 items["<POS>"].Add(dataGridView2.Rows[i].Cells[2].Value.ToString());
                 items["<DEP>"].Add(dataGridView2.Rows[i].Cells[3].Value.ToString());
                 items["<DATE>"].Add(date);
-                items["<PROT>"].Add(textBox1.Text);
+                items["<PROT>"].Add(textBox2.Text);
 
             }
 
@@ -311,12 +311,7 @@ namespace Auto_word
 
         
 
-        private void âûáğàòüÏàïêóToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog(); 
-            folderBrowserDialog.ShowDialog();
-            Console.WriteLine(folderBrowserDialog.SelectedPath); 
-        }
+        
 
         private void íàñòğîéêèToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -329,15 +324,7 @@ namespace Auto_word
             
         }
 
-        private void íàñòğîéêèToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            if (settings == null)
-            {
-                settings = new Settings(this);
-            }
-
-            settings.Show();
-        }
+   
 
         private void âûõîäToolStripMenuItem_Click(object sender, EventArgs e)
         {
