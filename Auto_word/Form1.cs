@@ -47,11 +47,12 @@ namespace Auto_word
             InitializeComponent();
             
             dataGridView2.Columns.Add("Индекс", "Индекс");
-            dataGridView2.Columns.Add("ФИО", "ФИО");
+            dataGridView2.Columns.Add("ФИО им", "ФИО им");
+            dataGridView2.Columns.Add("ФИО вин", "ФИО вин");
             dataGridView2.Columns.Add("Должность", "Должность");
             dataGridView2.Columns.Add("Кафедра", "Кафедра");
             dataGridView2.Columns.AddRange(new DataGridViewColumn[] { new DataGridViewButtonColumn() });
-            dataGridView2[4, 0].Value = "Удалить";
+            dataGridView2[5, 0].Value = "Удалить";
 
 
         }
@@ -74,7 +75,8 @@ namespace Auto_word
 
             var items = new Dictionary<string, List<string>>
             {
-                {"<FIO>", new List<string>() },
+                {"<FIO_IM>", new List<string>() },
+                {"<FIO_VIN>", new List<string>() },
                 {"<POS>", new List<string>() },
                 {"<DATE>", new List<string>() },
                 {"<DEP>", new List<string>() },
@@ -84,9 +86,10 @@ namespace Auto_word
 
             for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
             {
-                items["<FIO>"].Add(dataGridView2.Rows[i].Cells[1].Value.ToString());
-                items["<POS>"].Add(dataGridView2.Rows[i].Cells[2].Value.ToString());
-                items["<DEP>"].Add(dataGridView2.Rows[i].Cells[3].Value.ToString());
+                items["<FIO_IM>"].Add(dataGridView2.Rows[i].Cells[1].Value.ToString());
+                items["<FIO_VIN>"].Add(dataGridView2.Rows[i].Cells[2].Value.ToString());
+                items["<POS>"].Add(dataGridView2.Rows[i].Cells[3].Value.ToString());
+                items["<DEP>"].Add(dataGridView2.Rows[i].Cells[4].Value.ToString());
                 items["<DATE>"].Add(date);
                 items["<PROT>"].Add(textBox2.Text);
 
@@ -236,7 +239,7 @@ namespace Auto_word
             }
             dataGridView1.Columns.Add("Control", "");
 
-            for (int i = 0; i < dataGridView1.Columns.Count - 1; i++)
+            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
             {
                 dataGridView1.Rows[i].Cells[dataGridView1.Rows[i].Cells.Count - 1] = new DataGridViewButtonCell() { };
                 dataGridView1.Rows[i].Cells[dataGridView1.Rows[i].Cells.Count - 1].Value = "Добавить";
@@ -254,7 +257,7 @@ namespace Auto_word
         {
             try
             {
-                if (e.ColumnIndex == 4)
+                if (e.ColumnIndex == 5)
                 {
                     var a = dataGridView1.Rows[e.RowIndex];
                     a.Cells[a.Cells.Count - 1].Value = "Удалить";
@@ -305,7 +308,7 @@ namespace Auto_word
         {
             try
             {
-                if (e.ColumnIndex == 4)
+                if (e.ColumnIndex == 5)
                 {
                     var a = dataGridView2.Rows[e.RowIndex];
                     a.Cells[a.Cells.Count - 1].Value = "Добавить";
