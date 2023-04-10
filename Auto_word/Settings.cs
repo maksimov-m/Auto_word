@@ -44,7 +44,7 @@ namespace Auto_word
             OpenFileDialog openFileDialog = new OpenFileDialog();
             //openFileDialog.ShowDialog(); 
             openFileDialog.Multiselect = true;
-            openFileDialog.Filter = "DOC(*.doc)|*.doc|DOCX(*.docx)|*.docx";
+            openFileDialog.Filter = "DOCX(*.docx)|*.docx|DOC(*.doc)|*.doc";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 comboBox1.Items.Clear();
@@ -98,7 +98,7 @@ namespace Auto_word
             }
             else
             {
-                MessageBox.Show("Зполните все данные!");
+                MessageBox.Show("Заполните все данные!");
             }
         }
     }

@@ -106,7 +106,7 @@ namespace Auto_word
             
             foreach (string item in paths_bolvanki)
             {
-                names_file = names_file.Append(item[(item.LastIndexOf("\\") + 1)..paths_bolvanki[0].Length]).ToArray();
+                names_file = names_file.Append(item[(item.LastIndexOf("\\") + 1)..item.Length]).ToArray();
             }
             string direct = paths_bolvanki[0][0..(paths_bolvanki[0].LastIndexOf("\\") + 1)];
 
@@ -117,7 +117,7 @@ namespace Auto_word
                 {
                     res_names = res_names.Append($"{direct}{j} {names_file[i]}").ToArray();
                 }
-                WordHelper.Merge(res_names, $"{direct}Combine {i + 1}", false, $"{direct}template.docx");
+                WordHelper.Merge(res_names, $"{paths_save}\\_{date}_{names_file[i]}", false, $"{direct}template_{names_file[i]}");
 
                 foreach (var item in res_names)
                 {
@@ -245,6 +245,8 @@ namespace Auto_word
                 dataGridView1.Rows[i].Cells[dataGridView1.Rows[i].Cells.Count - 1].Value = "ƒÓ·‡‚ËÚ¸";
             }
 
+            dataGridView1.Columns[2].Visible = false;
+            dataGridView2.Columns[2].Visible = false;
             //for (int i = 0; i < dataGridView1.Rows.Count; i++)
             //{
             //    dataGridView1[dataGridView1.Rows.Count , i].Value = "ƒÓ·‡‚ËÚ¸";
@@ -310,6 +312,7 @@ namespace Auto_word
             {
                 if (e.ColumnIndex == 5)
                 {
+                   
                     var a = dataGridView2.Rows[e.RowIndex];
                     a.Cells[a.Cells.Count - 1].Value = "ƒÓ·‡‚ËÚ¸";
                     dataGridView2.Rows.RemoveAt(e.RowIndex);
@@ -373,6 +376,12 @@ namespace Auto_word
         private void ‚˚ıÓ‰ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void ËÌÒÚÛÍˆËˇToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.Show();
         }
     }
 }

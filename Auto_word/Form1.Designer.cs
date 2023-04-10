@@ -36,6 +36,7 @@
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.инструкцияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
@@ -76,6 +77,7 @@
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 29;
             this.dataGridView1.Size = new System.Drawing.Size(664, 570);
@@ -94,7 +96,8 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.файлToolStripMenuItem});
+            this.файлToolStripMenuItem,
+            this.инструкцияToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1243, 28);
@@ -123,6 +126,13 @@
             this.выходToolStripMenuItem.Size = new System.Drawing.Size(167, 26);
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
+            // 
+            // инструкцияToolStripMenuItem
+            // 
+            this.инструкцияToolStripMenuItem.Name = "инструкцияToolStripMenuItem";
+            this.инструкцияToolStripMenuItem.Size = new System.Drawing.Size(105, 24);
+            this.инструкцияToolStripMenuItem.Text = "Инструкция";
+            this.инструкцияToolStripMenuItem.Click += new System.EventHandler(this.инструкцияToolStripMenuItem_Click);
             // 
             // toolStrip1
             // 
@@ -167,6 +177,7 @@
             this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView2.Location = new System.Drawing.Point(0, 0);
             this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.ReadOnly = true;
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 29;
             this.dataGridView2.Size = new System.Drawing.Size(546, 438);
@@ -183,11 +194,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(917, 553);
+            this.label2.Location = new System.Drawing.Point(906, 553);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 20);
+            this.label2.Size = new System.Drawing.Size(98, 20);
             this.label2.TabIndex = 9;
-            this.label2.Text = "Протокол";
+            this.label2.Text = "Протокол №";
             // 
             // Form1
             // 
@@ -237,5 +248,6 @@
         private ToolStripMenuItem выходToolStripMenuItem;
         private TextBox textBox2;
         private Label label2;
+        private ToolStripMenuItem инструкцияToolStripMenuItem;
     }
 }
